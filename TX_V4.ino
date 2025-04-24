@@ -19,7 +19,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 // Knapper
 #define BUTTON1 2  // Skifter mellem Crane / Car
-#define BUTTON2 5  // (valgfri fremtidig funktion)
+#define BUTTON2 5  // (fremtidig funktion)
 
 RF24 radio(7, 8);
 const byte address[6] = "00010";
