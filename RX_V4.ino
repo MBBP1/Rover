@@ -182,61 +182,6 @@ void handleInput() {
   Serial.print(" | Temp: "); Serial.println(ack.temperature, 1);
 }
 
-
-/*
-void handleInput() {
-  int rx = data.rxVal;
-  int ry = data.ryVal;
-  int lx = data.lxVal;
-  int ly = data.lyVal;
-
-  if (!data.mode) {
-    // === CAR MODE ===
-    driveWithJoystick(ly);       // Frem/bak
-    steerWithJoystick(rx);       // Styring
-  } else {
-    // === CRANE MODE ===
-    STOP();  // Stop motorer
-
-    // Kranens led
-    angleLX = updateAngleWithDeadzone(angleLX, lx, -1); // Base
-    angleRX = updateAngleWithDeadzone(angleRX, rx, 1);  // Elbow
-    angleRY = updateAngleWithDeadzone(angleRY, ry, 1);  // Shoulder
-    gripperAngle = updateAngleWithDeadzone(gripperAngle, ly, 1, gripperMin, gripperMax); // Gripper
-
-    updateServo(movementServoLX, angleLX, lastAngleLX);
-    updateServo(movementServoRY, angleRY, lastAngleRY);
-    updateServo(movementServoRX, angleRX, lastAngleRX);
-    updateServo(gripperServo, gripperAngle, lastGripperAngle);
-  }
-
-  // Debug
-  Serial.print("Mode: "); Serial.print(data.mode ? "CRANE" : "CAR");
-  Serial.print(" | LX: "); Serial.print(angleLX);
-  Serial.print(" | RY: "); Serial.print(angleRY);
-  Serial.print(" | RX: "); Serial.print(angleRX);
-  Serial.print(" | LY (Gripper): "); Serial.print(gripperAngle);
-  Serial.print(" | Temp: "); Serial.println(ack.temperature, 1);
-}
-
-// === Hjælpefunktioner ===
-
-int updateAngleWithDeadzone(int angle, int value, int direction, int minVal, int maxVal) {
-  if (abs(value - 512) > deadZone) {
-    int delta = constrain(map(abs(value - 512), deadZone, 512, 1, 10), 1, 3);
-    angle += (value > 512) ? delta * direction : -delta * direction;
-    angle = constrain(angle, minVal, maxVal);
-  }
-  return angle;
-}
-
-void updateServo(Servo& servo, int angle, int& lastAngle) {
-  if (angle != lastAngle) {
-    servo.write(angle);
-    lastAngle = angle;
-  }
-}
-*/
 void driveWithJoystick(int throttle) {
   int center = 512;
   int dead = 30;
@@ -259,14 +204,14 @@ void steerWithJoystick(int input) {
   int dead = 30;
   int target;
 
-  // Hvis joysticket er i center (dvs. sluppet), så sæt target til neutral position
+  
   if (abs(input - center) < dead) {
-    target = 82;  // Lige ud position – tilpas denne til hvad "lige ud" faktisk er
+    target = 82; 
   } else {
-    target = map(input, 0, 1023, 45, 120);  // Ellers map input til styrevinkel
+    target = map(input, 0, 1023, 45, 120); 
   }
 
-  // Justér styringen gradvist mod target
+
   if (steeringAngle < target) {
     steeringAngle += 8;
     if (steeringAngle > target) steeringAngle = target;
